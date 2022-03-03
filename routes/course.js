@@ -155,6 +155,7 @@ router.delete("/:courseId", authenticate, authorizeAdmin, async (req, res) => {
 	try {
 		const courseId = req.params.courseId
 		const course = await Course.findByIdAndDelete(courseId)
+
 		res.json(course)
 	} catch (err) {
 		res.status(500).json(err.message)

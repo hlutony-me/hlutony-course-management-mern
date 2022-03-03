@@ -7,6 +7,15 @@ const Student = require("../model/student")
 const { authenticate, authorizeStudent } = require("../middleware/auth")
 const Course = require("../model/course")
 
+//List all students
+router.get("/", authenticate, async (req, res) => {
+	try {
+		const students = await Student.find()
+		res.json(students)
+	} catch (err) {
+		return res.status(500).json({ msg: err.message })
+	}
+})
 //list courses taken by one student
 //@Private
 router.get("/courses", authenticate, authorizeStudent, async (req, res) => {

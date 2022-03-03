@@ -43,7 +43,7 @@ function AdminRegister() {
 			)
 			dispatch(setLoginSuccess(res.data))
 
-			navigate("")
+			navigate("/home")
 		} catch (error) {
 			console.log(error)
 		}

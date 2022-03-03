@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { setLoginSuccess } from "../features/authSlice"
 
 function StudentRegister() {
@@ -28,6 +28,7 @@ function StudentRegister() {
 
 	const onInputChange = (e) =>
 		setUser({ ...user, [e.target.name]: e.target.value })
+	const navigate = useNavigate()
 
 	const handleRegister = async (e) => {
 		e.preventDefault()
@@ -49,7 +50,7 @@ function StudentRegister() {
 			)
 			dispatch(setLoginSuccess(res.data))
 
-			return <Navigate to="/home" />
+			navigate("/home")
 		} catch (error) {
 			console.log(error)
 		}

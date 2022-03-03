@@ -19,7 +19,11 @@ import "./App.css"
 import Home from "./components/Home"
 import Login from "./components/Login"
 import { useDispatch, useSelector } from "react-redux"
-import { setLocalUserLogin, setLoginSuccess, setLogoutSuccess } from "./features/authSlice"
+import {
+	setLocalUserLogin,
+	setLoginSuccess,
+	setLogoutSuccess
+} from "./features/authSlice"
 import AdminRegister from "./components/admin/AdminRegister"
 import StudentRegister from "./components/StudentRegister"
 import { NavDropdown } from "react-bootstrap"
@@ -32,19 +36,18 @@ import StudentCourses from "./components/student/StudentCourses"
 import { StudentRoute } from "./components/student/StudentRoute"
 import CourseList from "./components/student/CourseList"
 import PickCourse from "./components/student/PickCourse"
+import AdminAllStudents from "./components/admin/AdminAllStudents"
 //
 function App() {
 	const [userEmail, setUserEmail] = useState("")
 
 	const email = useSelector((state) => state.auth.value.email)
-	
 
 	const dispatch = useDispatch()
 
 	const token = localStorage.getItem("token")
 	useEffect(() => {
 		if (token != null) {
-			
 			dispatch(setLocalUserLogin())
 		}
 	}, [])
@@ -86,7 +89,7 @@ function App() {
 
 							<NavDropdown title="Admin Dashboard" id="basic-nav-dropdown">
 								<NavDropdown.Item as={Link} to="/admin/courses">
-									Students list
+									Student list in Course
 								</NavDropdown.Item>
 								<NavDropdown.Item as={Link} to="/admin/courses/create">
 									Create Course
@@ -94,6 +97,10 @@ function App() {
 								<NavDropdown.Item as={Link} to="/admin/courses/all">
 									Course list
 								</NavDropdown.Item>
+								<NavDropdown.Item as={Link} to="admin/students">
+									All Student list
+								</NavDropdown.Item>
+			
 							</NavDropdown>
 						</Nav>
 					</Navbar.Collapse>
@@ -107,7 +114,7 @@ function App() {
 				</Container>
 			</Navbar>
 
-			<div>
+			<div className="center-container">
 				<Routes>
 					<Route index element={<Home />} />
 					<Route path="home" element={<Home />} />
@@ -164,6 +171,14 @@ function App() {
 							</AdminRoute>
 						}
 					/>
+					<Route
+						path="admin/students"
+						element={
+							<AdminRoute>
+								<AdminAllStudents />
+							</AdminRoute>
+						}
+					></Route>
 				</Routes>
 			</div>
 		</Router>

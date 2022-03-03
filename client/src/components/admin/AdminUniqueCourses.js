@@ -2,9 +2,10 @@ import React, { Component, useEffect, useState } from "react"
 import axios from "axios"
 import { Button, Card, Col, Row, Form } from "react-bootstrap"
 import { useSelector } from "react-redux"
+import "./AdminUniqueCourse.css"
 
 function AdminUniqueCourses() {
-	const [courseCode, setCouorseCode] = useState([])
+	const [courseCode, setCouorseCode] = useState()
 
 	const [students, setStudents] = useState([])
 
@@ -87,7 +88,7 @@ function AdminUniqueCourses() {
 
 	return (
 		<>
-			<Form onSubmit={(e) => handleSearch(e)}>
+			{/* <Form onSubmit={(e) => handleSearch(e)}>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 					<Form.Label>Course Code</Form.Label>
 					<Form.Control
@@ -101,20 +102,30 @@ function AdminUniqueCourses() {
 				<Button variant="primary" type="submit">
 					Search
 				</Button>
-			</Form>
+			</Form> */}
 
 			{!isAuthorized && <p>You don't have authorization to this page</p>}
 
 			{students != null && students.length !== 0 && (
 				<div>
-					<h2>Student list of Course: {courseCode}</h2>
-					<Row xs={1} md={3} className="g-4">
+					<h2 className="title">Student list of Course: {courseCode}</h2>
+					<Row
+						xs={1}
+						md={3}
+						className="g-4 bg-primary text-white"
+						style={{ margin: "1px" }}
+					>
 						{students.map((student) => (
 							<p>{student}</p>
 						))}
 					</Row>
 				</div>
 			)}
+			{
+				students == null || students.length == 0 &&courseCode!=null&& (
+					<h2>No students in {courseCode}</h2>
+				)
+			}
 
 			{!loading && courses != null && courses.length !== 0 && (
 				<Row xs={1} md={3} className="g-4">
