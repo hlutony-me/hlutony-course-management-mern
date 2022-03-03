@@ -29,7 +29,9 @@ router.get("/courses", authenticate, authorizeStudent, async (req, res) => {
 		for (const courseInfo of student.courses) {
 			console.log(courseInfo)
 			const course = await Course.findById(courseInfo.course)
-			courses.push(course)
+			if (course != null) {
+				courses.push(course)
+			}
 		}
 
 		return res.json(courses)

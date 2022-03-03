@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react"
 import axios from "axios"
-import { Button, Card, Col, Row,Modal } from "react-bootstrap"
+import { Button, Card, Col, Row, Modal } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { setLocalUserLogin } from "../../features/authSlice"
@@ -9,16 +9,15 @@ function StudentCourses() {
 	const [courses, setCourses] = useState([])
 	const [loading, setLoading] = useState(true)
 
-	const token  = localStorage.getItem("token")
+	const token = localStorage.getItem("token")
 	const dispatch = useDispatch()
 	useEffect(() => {
 		if (token != null) {
 			dispatch(setLocalUserLogin())
 		}
-        setLoading(false)
+		setLoading(false)
 	}, [])
-    useEffect(() => {
-        console.log("123")
+	useEffect(() => {
 		//call api
 		const fetchData = async () => {
 			//Set request header
@@ -35,6 +34,7 @@ function StudentCourses() {
 			)
 			setCourses(res.data)
 			setLoading(false)
+			
 			console.log(res.data)
 		}
 
@@ -42,9 +42,6 @@ function StudentCourses() {
 	}, [])
 	let navigate = useNavigate()
 
-	const handleGoToSelect = (e) => {
-		navigate("")
-	}
 
 	const handleDeleteCourse = async (e) => {
 		const courseId = e.target.value
@@ -61,8 +58,10 @@ function StudentCourses() {
 			//Make request
 			const res = await axios.put(
 				`http://localhost:5000/api/students/courses/drop/${courseId}`,
+				{},
 				config
 			)
+			console.log()
 			var newCourses
 			newCourses = courses.filter(function (item) {
 				return item._id !== courseId
@@ -76,7 +75,7 @@ function StudentCourses() {
 	return (
 		<div>
 			<h2> Courses</h2>
-			{!loading && courses.length !== 0 && (
+			{!loading && courses.length !== 0 && courses != null && (
 				<Row xs={1} md={3} className="g-4">
 					{courses.map((course) => (
 						<Col>
@@ -101,8 +100,6 @@ function StudentCourses() {
 					))}
 				</Row>
 			)}
-
-
 		</div>
 	)
 }
