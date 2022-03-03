@@ -155,7 +155,23 @@ router.delete("/:courseId", authenticate, authorizeAdmin, async (req, res) => {
 	try {
 		const courseId = req.params.courseId
 		const course = await Course.findByIdAndDelete(courseId)
+		const students = await Student.find({
+			"courses.course": courseId 
+		})
 
+		for (const student of students) {
+			async(student) => {
+			const result = await Student.updateOne(
+				{ _id: student._id },
+				{
+					$pull: {
+						courses: { course: courseId }
+					}
+				}
+			)
+		}
+		}
+		
 		res.json(course)
 	} catch (err) {
 		res.status(500).json(err.message)
